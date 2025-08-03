@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from students.models import Student
 from employees.models import Employee
 from .serializers import StudentSerializer, EmployeeSerializer
@@ -127,3 +128,8 @@ class EmployeeViewset(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
+    
+    def retrieve(self, request, pk=None):
+        employee = get_object_or_404(Employee, pk=pk)
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data, status=status.HTTP_200_OK)
